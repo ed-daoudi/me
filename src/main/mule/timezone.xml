@@ -13,6 +13,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<flow name="timezone" doc:id="f4fda19c-68ed-41be-a39d-e65b4010c6f9" >
 		<http:listener doc:name="Listener" doc:id="4ae20be9-eb03-4350-acc1-c5095966221c" config-ref="HTTP_Listener_config" path="/timezone/{name}"/>
 		<set-variable value="#[attributes.uriParams.name]" doc:name="vars.city" doc:id="a53b590e-a990-4152-ba5e-27bdd72a90d3" variableName="city"/>
+		<logger level="INFO" doc:name="Logger" doc:id="4c44a476-b9b2-4cf1-b963-4098220ed031" message="dummy logger"/>
 		<http:request method="GET" doc:name="call Timezone" doc:id="f237371f-9770-435b-876d-879644ea0837" config-ref="HTTP_Request_configuration" path="#['/' ++ vars.city]"/>
 	</flow>
 </mule>
