@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="1f11c414-c1dd-47e9-97ac-f7238565548a" basePath="/api/timezone/Africa" >
+		<http:request-connection host="worldtimeapi.org" port="80" />
+	</http:request-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="04c328ba-f2fd-4ca0-a927-144bbe35f4ea" >
+		<http:listener-connection host="0.0.0.0" port="8083" />
+	</http:listener-config>
+	<flow name="timezone" doc:id="f4fda19c-68ed-41be-a39d-e65b4010c6f9" >
+		<http:listener doc:name="Listener" doc:id="4ae20be9-eb03-4350-acc1-c5095966221c" config-ref="HTTP_Listener_config" path="/timezone/{name}"/>
+		<set-variable value="#[attributes.uriParams.name]" doc:name="vars.city" doc:id="a53b590e-a990-4152-ba5e-27bdd72a90d3" variableName="city"/>
+		<http:request method="GET" doc:name="call Timezone" doc:id="f237371f-9770-435b-876d-879644ea0837" config-ref="HTTP_Request_configuration" path="#['/' ++ vars.city]"/>
+	</flow>
+</mule>
